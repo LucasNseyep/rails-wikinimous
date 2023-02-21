@@ -13,11 +13,28 @@ class ArticlesController < ApplicationController
 
   def create
     @article = Article.create(article_params)
-    redirect_to task_path(@task) #how the hell does this line work?
+    redirect_to article_path(@article) #how the hell does this line work?
+  end
+
+  def edit
+    @article = Article.find(params[:id])
+  end
+
+  def update
+    @article = Article.find(params[:id])
+    @article.update(article_params)
+    redirect_to article_path(@article)
+  end
+
+  def destroy
+    @article = Article.find(params[:id])
+    @article.destroy
+    redirect_to articles_path, status: :see_other
   end
 
   private
 
   def article_params
+    params.require(:article).permit(:title, :content)
   end
 end
